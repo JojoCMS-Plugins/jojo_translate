@@ -1,0 +1,1 @@
+For multi-language sites with text in the templates that needs to change depending on the language (eg: Search).Mark up text in the template to be translated inside double hashes (eg: ##Site Search##).In Admin > Translations, enter the translated versions for each language.In the absence of a translated version, the original term (without the hashes) will be used.

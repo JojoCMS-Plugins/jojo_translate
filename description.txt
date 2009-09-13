@@ -1,0 +1,1 @@
+Creates an editable table of translations for terms used in the site's theme or templates which are otherwise not editable through the admin interface
