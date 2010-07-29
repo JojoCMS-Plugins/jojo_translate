@@ -25,6 +25,12 @@ class JOJO_Plugin_Jojo_Translate extends JOJO_Plugin
         if ($matches[0]) {
       
             global $page;
+            /* Check permissions to ensure page is public */
+            $perms = new Jojo_Permissions();
+            $perms->getPermissions('page', $page->page['pageid']);
+            if (!$perms->hasPerm(array('everyone'), 'show')) {
+                return $content;
+            }
             $language = 'tr_' . (!empty($page->page['pg_language']) ? $page->page['pg_language'] : Jojo::getOption('multilanguage-default', 'en')); 
             $default = 'tr_default';
             if (Jojo::tableExists("{translate}") && !Jojo::fieldExists("{translate}", $language )) {
@@ -33,6 +39,7 @@ class JOJO_Plugin_Jojo_Translate extends JOJO_Plugin
             $translations = Jojo::selectAssoc("SELECT `" . $default . "`, `" . $language . "` FROM {translate}");
         
             foreach($matches[1] as $term) {
+                $term  = htmlspecialchars($term, ENT_COMPAT, 'UTF-8', false);
                 $pattern = '~##' . $term . '##~';
                 if (isset($translations[$term]) && $translations[$term]) {
                    /* return the new term without the hashes */
@@ -44,6 +51,7 @@ class JOJO_Plugin_Jojo_Translate extends JOJO_Plugin
                     if (!isset($translations[$term])) {
                        /* add the missing term*/
                        Jojo::insertQuery("INSERT INTO {translate} (`" . $default . "`) VALUES (?)", array($term));
+                       $translations = Jojo::selectAssoc("SELECT `" . $default . "`, `" . $language . "` FROM {translate}");
                     }
                 }            
             }
