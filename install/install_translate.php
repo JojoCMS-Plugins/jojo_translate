@@ -1,7 +1,7 @@
 <?php
 
 
-$languages = Jojo::selectQuery("SELECT * from {language} WHERE `active` = 'yes'");
+$languages = Jojo::selectQuery("SELECT * from {language} WHERE `active` = '1'");
 
 $table = 'translate';
 $query = "
