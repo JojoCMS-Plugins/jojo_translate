@@ -18,11 +18,6 @@
  */
 
 
-if (!defined('_MULTILANGUAGE')) {
-    define('_MULTILANGUAGE', Jojo::getOption('multilanguage', 'no') == 'yes');
-}
-
-
 $table = 'translate';
 $o = 1;
 
@@ -37,24 +32,24 @@ $default_td[$table]['td_menutype']      = 'list';
 /* ID */
 $field = 'translateid';
 $default_fd[$table][$field]['fd_order']     = $o++;
-$default_fd[$table][$field]['fd_type']      = 'readonly';
+$default_fd[$table][$field]['fd_type']      = 'hidden';
 $default_fd[$table][$field]['fd_help']      = 'A unique ID, automatically assigned by the system';
-$default_fd[$table][$field]['fd_mode']      = 'advanced';
 
 
 /* Default */
 $field = 'tr_default';
 $default_fd[$table][$field]['fd_order']     = $o++;
-$default_fd[$table][$field]['fd_type']      = 'hidden';
-$default_fd[$table][$field]['fd_mode']      = 'advanced';
+$default_fd[$table][$field]['fd_type']      = 'readonly';
+$default_fd[$table][$field]['fd_name']      = 'Original';
 
-$languages = Jojo::selectQuery("SELECT * from {language} WHERE `active` = 'yes'");
+$languages = Jojo::selectQuery("SELECT * from {language} WHERE `active` = '1'");
 
-foreach ($languages as $l ){    
-$field = 'tr_' . $l['languageid'];
-$default_fd[$table][$field]['fd_order']     = $o++;
-$default_fd[$table][$field]['fd_name'] = $l['english_name'];
-$default_fd[$table][$field]['fd_type']      = 'text';
-$default_fd[$table][$field]['fd_size']      = 80;
-$default_fd[$table][$field]['fd_mode']      = 'advanced';
-}      
+foreach ($languages as $l ){
+    $field = 'tr_' . $l['languageid'];
+    $default_fd[$table][$field]['fd_order']     = $o++;
+    $default_fd[$table][$field]['fd_name'] = $l['english_name'];
+    $default_fd[$table][$field]['fd_type']      = 'text';
+    $default_fd[$table][$field]['fd_size']      = 80;
+    $default_fd[$table][$field]['fd_mode']      = 'advanced';
+}
+
