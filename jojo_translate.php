@@ -40,7 +40,7 @@ class JOJO_Plugin_Jojo_Translate extends JOJO_Plugin
         
             foreach($matches[1] as $term) {
                 $term  = htmlspecialchars($term, ENT_COMPAT, 'UTF-8', false);
-                $pattern = '~##' . $term . '##~';
+                $pattern = '~##' . preg_quote($term) . '##~';
                 if (isset($translations[$term]) && $translations[$term]) {
                    /* return the new term without the hashes */
                     $content = preg_replace($pattern, $translations[$term], $content);
